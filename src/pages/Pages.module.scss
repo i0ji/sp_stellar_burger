@@ -1,7 +1,7 @@
-@import "styles/theme_colors";
-@import "styles/animation";
-@import "styles/mixins";
-@import "styles/size";
+@use "styles/theme_colors";
+@use "styles/animation";
+@use "styles/mixins";
+@use "styles/size";
 
 .section {
   @include container_center;

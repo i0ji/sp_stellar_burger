@@ -1,6 +1,6 @@
-@import "styles/mixins";
-@import "styles/size";
-@import "styles/animation";
+@use "styles/mixins";
+@use "styles/size";
+@use "styles/animation";
 
 .profile_section {
   @include container_center;

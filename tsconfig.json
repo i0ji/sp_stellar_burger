@@ -24,9 +24,9 @@
     "baseUrl": "src",
     "paths": {
       /* ------ MAIN */
-      "src/*" : ["./*"],
+      "src/*": ["./*"],
       "store/*": ["store/*"],
-      "components/*" : ["components/*"],
+      "components/*": ["components/*"],
 
       "common/*": ["components/common/*"],
 
@@ -34,7 +34,7 @@
       "modal/*": ["components/Modal/*"],
 
       /* ------ PAGES */
-      "pages/*" : ["pages/*"],
+      "pages/*": ["pages/*"],
       "profile/*": ["pages/ProfilePage/*"],
       "ingredients/*": ["pages/IngredientDetailsPage/*"],
       "orders/*": ["pages/OrderDetailsPage/*"],

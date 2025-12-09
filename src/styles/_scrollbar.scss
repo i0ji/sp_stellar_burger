@@ -1,9 +1,9 @@
-@import "styles/_theme_colors";
+@use 'theme_colors' as *;
 
 * {
-  scrollbar-width: thin!important;
-  scrollbar-gutter: stable!important;
-  scroll-behavior: smooth!important;
+  scrollbar-width: thin !important;
+  scrollbar-gutter: stable !important;
+  scroll-behavior: smooth !important;
 }
 
 *::-webkit-scrollbar-thumb {

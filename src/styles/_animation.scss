@@ -1,11 +1,11 @@
-@import "./theme_colors";
+@use 'theme_colors' as *;
 
 .fadeIn {
-  animation: fadeIn .3s ease-in-out;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
 .fadeOut {
-  animation: fadeOut .3s ease-in-out;
+  animation: fadeOut 0.3s ease-in-out;
 }
 
 @keyframes fadeIn {

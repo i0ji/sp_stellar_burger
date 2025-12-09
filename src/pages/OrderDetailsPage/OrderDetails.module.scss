@@ -1,6 +1,6 @@
-@import "styles/theme_colors";
-@import "styles/mixins";
-@import "styles/scrollbar";
+@use "styles/theme_colors";
+@use "styles/mixins";
+@use "styles/scrollbar";
 
 .order_details {
   position: fixed;

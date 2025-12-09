@@ -1,4 +1,4 @@
-@import "styles/mixins";
+@use "styles/mixins";
 
 .burger_builder {
   composes: pl-4 pr-4 from global;

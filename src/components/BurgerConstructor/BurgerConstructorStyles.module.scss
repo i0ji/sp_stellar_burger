@@ -1,5 +1,5 @@
-@import "styles/theme_colors";
-@import "styles/animation";
+@use "styles/theme_colors";
+@use "styles/animation";
 
 .constructor_block {
   composes: mt-25 pl-5 pb-10 from global;

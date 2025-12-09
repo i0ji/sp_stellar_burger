@@ -1,4 +1,4 @@
-@import "styles/theme_colors";
+@use "styles/theme_colors";
 
 .feed_item {
   composes: pt-6 mt-1 mb-1 from global;
