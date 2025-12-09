@@ -1,6 +1,6 @@
-@import "styles/_theme_colors";
-@import "styles/_scrollbar";
-@import "styles/mixins";
+@use 'styles/_theme_colors';
+@use 'styles/_scrollbar';
+@use 'styles/mixins';
 
 * {
   padding: 0;

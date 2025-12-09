@@ -1,4 +1,4 @@
-@import "./theme_colors";
+@use './theme_colors';
 
 @mixin modal_loader_overlay {
   position: fixed;
@@ -13,7 +13,7 @@
   height: 100%;
 
   background-color: #000000;
-  opacity: .6;
+  opacity: 0.6;
 }
 
 @mixin flex_center {
@@ -44,8 +44,7 @@
 }
 
 @mixin digits_box_shadow {
-  text-shadow: 0 0 7px $scroll_active,
-  0 0 14px $scroll_active
+  text-shadow: 0 0 7px $scroll_active, 0 0 14px $scroll_active;
 }
 
 @mixin modal_background {

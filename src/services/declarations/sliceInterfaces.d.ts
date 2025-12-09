@@ -24,4 +24,5 @@ export interface IOrderSlice extends TStatus, TError {
     orderNumber: number | null,
     IDs: Array<string>,
     currentOrder: TOrder,
+    error: Error | string | null;
 }
