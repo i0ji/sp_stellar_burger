@@ -150,4 +150,4 @@ Global project features:
   04.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.7.3: remove isDirect flag, replace it with IF condition when render OrderDetails; add \_id mapping key instead of i:number in ingredients; render of OrderDetails; add error reset on successful orderSlice update; modal shadow overlaps header; add description to Loader; updated and corrected calculation of order amount and quantity of ingredients; fixing last img brightness; some minor style and markup edits; add conditional render; move calculating qty and price logic to separate file; some markup edits for better reading; replace orderData condition; framer option start;<br>
   08.09.25: **b**:chore **v**:0.1.9.6.7.3: deps, docs update;<br>
   08.09.25: **b**:chore **v**:0.1.9: deps update;<br>
-  10.12.25: **b**:chore **v**:0.2.0: total interfaces & types refactor and fixing type issues in slices, reducers etc;<br>
+  10.12.25: **b**:chore **v**:0.2.0: total interfaces & types refactor and fixing type issues in slices, reducers etc; rework logic and implementation, interfaces, types, slices, reducers; almost all components are modified<br>
