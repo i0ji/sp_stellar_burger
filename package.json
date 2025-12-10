@@ -1,7 +1,7 @@
 {
-  "name": "p_stellar_burger",
+  "name": "sp_stellar_burger",
   "private": true,
-  "version": "0.1.9",
+  "version": "0.2.0",
   "type": "module",
   "homepage": "./",
   "packageManager": "pnpm@10.25.0",

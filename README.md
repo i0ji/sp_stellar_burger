@@ -144,10 +144,10 @@ Global project features:
   29.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.5: total refactor using middleware;<br>
   30.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.6: add ban type disabling from ESlnit; add wsActions and second middleware; get ingredients via new middleware; types, actionsTypes, add second reducer/action pair; correct data set; profile order list w/o personal filter yet;<br>
   31.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.6: delete store unused action types; routing attempts; move some common style settings to @mixin; personal orders check; routing;<br>
-  01.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.7: store typed issue; add react-framer to implement smooth render; routing;
+  01.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.7: store typed issue; add react-framer to implement smooth render; routing;<br>
   02.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.8: add order request; routing; add direct flag to OrderDetails; route markup; common order direct and nested route set; styling modal window for best behavior;<br>
-  03.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.7.: reset to prev.version; profile page and orders layout refactor; routing for profile and feed pages; multiply style improvements and changes;
+  03.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.7.: reset to prev.version; profile page and orders layout refactor; routing for profile and feed pages; multiply style improvements and changes;<br>
   04.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.7.3: remove isDirect flag, replace it with IF condition when render OrderDetails; add \_id mapping key instead of i:number in ingredients; render of OrderDetails; add error reset on successful orderSlice update; modal shadow overlaps header; add description to Loader; updated and corrected calculation of order amount and quantity of ingredients; fixing last img brightness; some minor style and markup edits; add conditional render; move calculating qty and price logic to separate file; some markup edits for better reading; replace orderData condition; framer option start;<br>
   08.09.25: **b**:chore **v**:0.1.9.6.7.3: deps, docs update;<br>
   08.09.25: **b**:chore **v**:0.1.9: deps update;<br>
-  10.12.25: **b**:chore **v**:0.2.0: total interfaces & types refactor and fixing type issues in slices, reducers etc;
+  10.12.25: **b**:chore **v**:0.2.0: total interfaces & types refactor and fixing type issues in slices, reducers etc;<br>

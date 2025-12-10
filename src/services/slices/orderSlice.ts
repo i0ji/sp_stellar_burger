@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createOrder } from 'utils/api.ts';
-import { IOrderSlice } from 'declarations/sliceInterfaces';
+import { IOrderSlice } from 'declarations/interfaces';
 
 export const initialState: IOrderSlice = {
   orderNumber: null as number | null,
@@ -46,7 +46,7 @@ export const orderSlice = createSlice({
       })
       .addCase(createOrder.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.error.message;
+        state.error = action.error.message || 'Order error';
       });
   },
 });

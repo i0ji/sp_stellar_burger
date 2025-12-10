@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IIngredientsListSlice } from 'declarations/sliceInterfaces';
+import { IIngredientsListSlice } from 'declarations/interfaces';
 import { getIngredients } from 'utils/api.ts';
 
 const initialState: IIngredientsListSlice = {

@@ -1,7 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { slicePriceCalculation } from 'utils/slicePriceCalculation.ts';
-import { IConstructorSlice } from 'declarations/sliceInterfaces';
-import { IIngredient } from 'declarations/interfaces';
+import { IIngredient, IConstructorSlice } from 'declarations/interfaces';
 
 export const initialState: IConstructorSlice = {
   totalPrice: 0,
