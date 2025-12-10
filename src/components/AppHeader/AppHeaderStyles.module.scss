@@ -1,5 +1,5 @@
-@use "styles/theme_colors";
-@use "styles/mixins";
+@use 'styles/theme_colors';
+@use 'styles/mixins';
 
 .header {
   composes: pt-4 pb-4 from global;
@@ -36,7 +36,7 @@
 
       border-radius: 35px;
 
-      transition: .5s all ease-in-out;
+      transition: 0.5s all ease-in-out;
 
       color: $theme_light;
 
@@ -62,7 +62,7 @@
       color: $theme_white;
 
       svg {
-        fill: $theme_white
+        fill: $theme_white;
       }
     }
 
@@ -70,7 +70,7 @@
       float: right;
     }
 
-    a[class="active"] {
+    a[class='active'] {
       button {
         color: $theme_white;
       }
@@ -80,16 +80,12 @@
       }
     }
 
-    a[class="not_active"] {
+    a[class='not_active'] {
       color: $theme_light;
 
       svg {
         fill: $theme_light;
       }
     }
-
-
   }
 }
-
-

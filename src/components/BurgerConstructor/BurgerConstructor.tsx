@@ -1,7 +1,7 @@
 import styles from './BurgerConstructorStyles.module.scss';
 import awaitSpinner from 'images/common/awaitSpinner.svg';
 
-import { createOrder } from 'utils/api.ts';
+import { createOrder } from 'utils/api';
 
 import { IIngredient } from 'declarations/interfaces';
 
@@ -140,13 +140,26 @@ export default function BurgerConstructor() {
   // --------------- GET ORDER NUMBER LOGIC ---------------
 
   const handleOrder = async (): Promise<void> => {
+    // 1. Если не авторизован - редирект и ВЫХОД из функции
     if (!isAuth) {
       navigate('/login');
+      return; // Обязательно добавляем return!
     }
 
     await openModal();
-    const orderNumber = dispatch(createOrder(ingredientIDs));
-    dispatch(updateOrderNumber(orderNumber.payload));
+
+    // 2. Добавляем await перед dispatch
+    const action = await dispatch(createOrder(ingredientIDs));
+
+    // 3. Проверяем, что экшен выполнился успешно (fulfilled)
+    if (createOrder.fulfilled.match(action)) {
+      // Теперь TS знает, что payload существует и это number
+      dispatch(updateOrderNumber(action.payload));
+    }
+    // Опционально: обработка ошибки
+    else if (createOrder.rejected.match(action)) {
+      console.error('Ошибка создания заказа:', action.payload || action.error);
+    }
   };
 
   // --------------- MARKUP  ---------------

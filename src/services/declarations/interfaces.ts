@@ -24,10 +24,6 @@ export interface IUser {
   password?: string;
 }
 
-export interface IUserData {
-  user: IUser;
-}
-
 export interface IToken {
   accessToken: string;
   refreshToken: string;
@@ -46,6 +42,11 @@ export interface IIngredientGroupProps {
   id?: string;
 }
 
+export interface IIngredientsWithQuantity {
+  ingredient: IIngredient;
+  qty: number;
+}
+
 export interface IDragItem {
   index: number;
   id: string;
@@ -60,6 +61,8 @@ export interface IForm {
   [key: string]: string;
 }
 
+export interface IBurgerState extends IIngredients, TStatus, TError {}
+
 export interface IRefreshData extends IToken {
   success: boolean;
 }
@@ -68,7 +71,7 @@ export interface IRegisterUser extends IRefreshData {
   user: IUser;
 }
 
-// ------ SLICE INTERFACES
+// ------ SLICE INTERFACE
 
 export interface IConstructorSlice {
   totalPrice: number;
@@ -91,4 +94,44 @@ export interface IOrderSlice extends TStatus, TError {
   name?: string;
   IDs: string[];
   currentOrder: TOrder | null;
+}
+
+// FEATURE
+// ------ REQUEST INTERFACE
+export interface ILoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface IRegisterRequest {
+  email: string;
+  password: string;
+  name: string;
+}
+
+export interface IUpdateUserRequest {
+  email?: string;
+  name?: string;
+  password?: string;
+}
+
+// FEATURE
+// ------ SERVER ANSWER INTERFACE
+export interface IToken {
+  accessToken: string;
+  refreshToken: string;
+}
+
+export interface IAuthResponse extends IToken {
+  success: boolean;
+  user: IUser;
+}
+
+export interface IUserResponse {
+  success: boolean;
+  user: IUser;
+}
+
+export interface IRefreshResponse extends IToken {
+  success: boolean;
 }

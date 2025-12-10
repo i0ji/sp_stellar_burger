@@ -1,66 +1,91 @@
 import { Middleware } from 'redux';
 import { RootState } from 'declarations/rootState.ts';
-import { TAppAction } from 'declarations/actionTypes.ts';
 import { TwsActionTypes } from 'declarations/types';
-
-import { refreshToken } from 'utils/api.ts';
+import { refreshToken } from 'utils/api';
 
 export const socketMiddleware =
   (wsActions: TwsActionTypes, withTokenRefresh: boolean): Middleware<{}, RootState> =>
   (store) => {
-    let socket: WebSocket | null = null,
-      url: string | null = null;
-    const { wsDisconnect }: TwsActionTypes = wsActions;
+    let socket: WebSocket | null = null;
+    let url: string | null = null;
 
     return (next) => (action) => {
-      const { dispatch } = store,
-        { type, payload }: TAppAction = action;
+      const { dispatch } = store;
+      const {
+        // wsConnect,
+        wsDisconnect,
+        // wsMessage,
+        // onOpen,
+        // onClose,
+        // onError,
+        // wsOpen
+      } = wsActions;
 
-      if (type === 'ORDER_FEED_WS_CONNECT') {
-        socket = new WebSocket(payload);
-        url = payload;
-        socket.onopen = () => {
-          dispatch({
-            type: 'ORDER_FEED_ON_OPEN',
-          });
-        };
-        socket.onerror = (event) => {
-          dispatch({
-            type: 'ORDER_FEED_ON_ERROR',
-            payload: event,
-          });
-        };
+      // Безопасное извлечение type и payload с проверкой типов
+      const actionType = (action as any)?.type;
+      const actionPayload = (action as any)?.payload;
 
-        socket.onmessage = (event) => {
-          const { data } = event,
-            parsedData = JSON.parse(data);
+      // CONNECT
+      if (actionType === 'ORDER_FEED_WS_CONNECT' && typeof actionPayload === 'string') {
+        try {
+          socket = new WebSocket(actionPayload);
+          url = actionPayload;
 
-          if (withTokenRefresh && parsedData.message === 'Токен неверный или отсутствует!') {
-            refreshToken().then((refreshData) => {
-              const wssUrl = new URL(url!);
-              wssUrl.searchParams.set('token', refreshData.accessToken.replace('Bearer ', ''));
-              dispatch({
-                type: 'ORDER_FEED_WS_CONNECT',
-                payload: wssUrl,
-              });
-            });
-          } else {
+          socket.onopen = () => {
             dispatch({
-              type: 'ORDER_FEED_WS_MESSAGE',
-              payload: parsedData,
+              type: 'ORDER_FEED_ON_OPEN',
             });
-          }
-        };
+          };
 
-        socket.onclose = () => {
-          dispatch({ type: 'ORDER_FEED_ON_CLOSE' });
-        };
+          socket.onerror = (event: Event) => {
+            const errorMessage = event instanceof Event ? event.type : 'WebSocket error';
+            dispatch({
+              type: 'ORDER_FEED_ON_ERROR',
+              payload: errorMessage,
+            });
+          };
+
+          socket.onmessage = (event: MessageEvent) => {
+            try {
+              const parsedData = JSON.parse(event.data);
+
+              if (withTokenRefresh && parsedData.message === 'Токен неверный или отсутствует!') {
+                refreshToken().then((refreshData) => {
+                  if (url) {
+                    const wssUrl = new URL(url);
+                    const token = refreshData.accessToken.replace('Bearer ', '');
+                    wssUrl.searchParams.set('token', token);
+
+                    dispatch({
+                      type: 'ORDER_FEED_WS_CONNECT',
+                      payload: wssUrl.toString(),
+                    });
+                  }
+                });
+              } else {
+                dispatch({
+                  type: 'ORDER_FEED_WS_MESSAGE',
+                  payload: parsedData,
+                });
+              }
+            } catch (parseError) {
+              console.error('Failed to parse WebSocket message:', parseError);
+            }
+          };
+
+          socket.onclose = () => {
+            dispatch({ type: 'ORDER_FEED_ON_CLOSE' });
+          };
+        } catch (wsError) {
+          console.error('Failed to create WebSocket:', wsError);
+        }
       }
 
-      if (wsDisconnect && type === wsDisconnect && socket) {
+      // DISCONNECT
+      if (actionType === wsDisconnect.type && socket) {
         socket.close();
       }
 
-      next(action);
+      return next(action);
     };
   };

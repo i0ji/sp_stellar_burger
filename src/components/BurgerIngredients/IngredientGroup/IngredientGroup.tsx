@@ -11,6 +11,7 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'hooks/reduxHooks.ts';
 import { useDrag } from 'react-dnd';
+import { LegacyRef } from 'react';
 
 export default function IngredientGroup({ type, ingredients }: IIngredientGroupProps) {
   // --------------- VARS & STATES ---------------
@@ -61,7 +62,7 @@ export default function IngredientGroup({ type, ingredients }: IIngredientGroupP
 
     return (
       <div
-        ref={drag}
+        ref={drag as unknown as LegacyRef<HTMLDivElement>}
         className={`pb-8 ${styles.ingredient_card} ${isDragging ? styles.dragging : ''}`}
         onClick={onOpenDetailsPage}
       >

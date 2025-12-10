@@ -1,5 +1,5 @@
-import { createReducer } from '@reduxjs/toolkit';
-import { TOrderFeedStore, TOrdersFeed } from 'declarations/types';
+import { createReducer, PayloadAction } from '@reduxjs/toolkit';
+import { TOrderFeedStore, TOrdersFeed, WSStatus } from 'declarations/types';
 import {
   onClose,
   onError,
@@ -13,68 +13,57 @@ import {
   wsOpen,
 } from 'services/orderFeed/actions.ts';
 
-enum WebsocketStatus {
-  CONNECTING = 'CONNECTING',
-  ONLINE = 'ONLINE',
-  OFFLINE = 'OFFLINE',
-}
-
 export const initialState: TOrderFeedStore = {
-  status: WebsocketStatus.OFFLINE,
+  status: WSStatus.OFFLINE,
   url: '',
-  error: '',
+  error: null,
   orders: {
-    total: null,
-    totalToday: null,
-    orders: [
-      {
-        ingredients: [],
-        _id: '',
-        status: 'created',
-        number: null,
-        createdAt: '',
-        updatedAt: '',
-      },
-    ],
+    success: true,
+    total: 0,
+    totalToday: 0,
+    orders: [],
   },
 };
 
 export const orderFeedReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(wsConnect, (state) => {
-      state.status = WebsocketStatus.CONNECTING;
+      state.status = WSStatus.CONNECTING;
     })
     .addCase(wsConnecting, (state) => {
-      state.status = WebsocketStatus.CONNECTING;
+      state.status = WSStatus.CONNECTING;
     })
     .addCase(wsOpen, (state) => {
-      state.status = WebsocketStatus.ONLINE;
+      state.status = WSStatus.ONLINE;
       state.error = null;
     })
-    .addCase(wsMessage, (state, action: { payload: TOrdersFeed; type: string }) => {
-      state.status = WebsocketStatus.ONLINE;
+    // ИСПРАВЛЕНИЕ: Используем PayloadAction вместо вручную написанного типа
+    .addCase(wsMessage, (state, action: PayloadAction<TOrdersFeed>) => {
+      state.status = WSStatus.ONLINE;
       state.orders = action.payload;
       state.error = null;
     })
     .addCase(wsClose, (state) => {
-      state.status = WebsocketStatus.OFFLINE;
+      state.status = WSStatus.OFFLINE;
     })
     .addCase(wsDisconnect, (state) => {
-      state.status = WebsocketStatus.OFFLINE;
+      state.status = WSStatus.OFFLINE;
     })
-    .addCase(wsError, (state, action: { payload: Error; type: string }) => {
-      state.status = WebsocketStatus.OFFLINE;
+    // ИСПРАВЛЕНИЕ: payload теперь string (как в экшене)
+    .addCase(wsError, (state, action: PayloadAction<string>) => {
+      state.status = WSStatus.OFFLINE;
       state.error = action.payload;
     })
     .addCase(onClose, (state) => {
-      state.status = WebsocketStatus.OFFLINE;
+      state.status = WSStatus.OFFLINE;
     })
     .addCase(onOpen, (state) => {
-      state.status = WebsocketStatus.ONLINE;
+      state.status = WSStatus.ONLINE;
       state.error = null;
     })
-    .addCase(onError, (state, action: { payload: Error; type: string }) => {
-      state.status = WebsocketStatus.OFFLINE;
+    // ИСПРАВЛЕНИЕ: payload теперь string (как в экшене)
+    .addCase(onError, (state, action: PayloadAction<string>) => {
+      state.status = WSStatus.OFFLINE;
       state.error = action.payload;
     });
 });

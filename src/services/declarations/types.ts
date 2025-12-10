@@ -1,8 +1,12 @@
 import { Action, ActionCreator } from 'redux';
-import { ThunkAction } from 'redux-thunk';
-import { IIngredient, IToken, IUser, IUserData } from './interfaces'; // Импорт из соседнего файла
-import { RootState } from './rootState'; // Убедитесь, что путь верный
-import { ActionCreatorWithPayload, ActionCreatorWithoutPayload } from '@reduxjs/toolkit';
+// import { ThunkAction } from 'redux-thunk';
+import { IIngredient } from './interfaces';
+import { RootState } from './rootState';
+import {
+  ActionCreatorWithPayload,
+  ActionCreatorWithoutPayload,
+  ThunkAction,
+} from '@reduxjs/toolkit';
 
 export type TInputElementType = HTMLInputElement | null;
 
@@ -10,29 +14,36 @@ export type TStatus = {
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
 };
 
+export enum WSStatus {
+  CONNECTING = 'CONNECTING',
+  ONLINE = 'ONLINE',
+  OFFLINE = 'OFFLINE',
+}
+
 export type TError = {
   error: string | null;
 };
-
-export type TServerResponse<T> = {
-  success: boolean;
-} & T;
 
 export type TIngredientResponse = TServerResponse<{
   data: IIngredient[];
 }>;
 
-export type TUserLoginResponse = TServerResponse<
-  IToken & {
-    user: IUserData;
-  }
->;
+// export type TUserLoginResponse = TServerResponse<
+//   IToken & {
+//     user: IUserData;
+//   }
+// >;
 
-export type TUserRegister = TServerResponse<
-  IToken & {
-    user: IUser;
-  }
->;
+// export type TUserRegister = TServerResponse<
+//   IToken & {
+//     user: IUser;
+//   }
+// >;
+
+//FEATURE
+export type TServerResponse<T> = {
+  success: boolean;
+} & T;
 
 export type TApiResponse<T> = TServerResponse<{
   [key: string]: T;
@@ -50,7 +61,7 @@ export type TOrder = {
   number: number | null;
 };
 
-export type TOrders = { orders: array<TOrder> };
+export type TOrders = { orders: Array<TOrder> };
 
 export type TOrdersFeed = {
   success: boolean;
@@ -59,14 +70,8 @@ export type TOrdersFeed = {
   totalToday: number;
 };
 
-export enum WebsocketStatus {
-  CONNECTING = 'CONNECTING',
-  ONLINE = 'ONLINE',
-  OFFLINE = 'OFFLINE',
-}
-
 export type TOrderFeedStore = {
-  status: WebsocketStatus;
+  status: WSStatus;
   url: string;
   error: string | null;
   orders: TOrdersFeed;

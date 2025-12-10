@@ -2,18 +2,19 @@ import { Dispatch, createAsyncThunk } from '@reduxjs/toolkit';
 import { BASE_URL, ORDER_URL } from 'declarations/routs.ts';
 import { setAuthChecked, setUser } from 'slices/authSlice.ts';
 import { checkResponse } from 'utils/checkResponse.ts';
-import { IIngredient, IRegisterUser, IUserData } from 'declarations/interfaces';
 import {
-  TApiResponse,
-  TIngredientResponse,
-  TOrders,
-  TUserLoginResponse,
-  TUserRegister,
-} from 'declarations/types';
+  IIngredient,
+  IUser,
+  ILoginRequest,
+  IRegisterRequest,
+  IUpdateUserRequest,
+  IAuthResponse,
+  IUserResponse,
+  IRefreshResponse,
+} from 'declarations/interfaces';
+import { TApiResponse, TIngredientResponse, TOrders } from 'declarations/types';
 
-// --------------- REFRESH ---------------
-
-export const refreshToken = async (): Promise<TApiResponse<string>> =>
+export const refreshToken = async (): Promise<IRefreshResponse> =>
   fetch(`${BASE_URL}/auth/token`, {
     method: 'POST',
     headers: {
@@ -22,9 +23,7 @@ export const refreshToken = async (): Promise<TApiResponse<string>> =>
     body: JSON.stringify({
       token: localStorage.getItem('refreshToken'),
     }),
-  }).then((res) => checkResponse(res));
-
-// --------------- FETCH WITH REFRESH ---------------
+  }).then((res) => checkResponse<IRefreshResponse>(res));
 
 export const fetchWithRefresh = async <T>(url: RequestInfo, options: RequestInit): Promise<T> => {
   try {
@@ -33,11 +32,18 @@ export const fetchWithRefresh = async <T>(url: RequestInfo, options: RequestInit
   } catch (err) {
     if ((err as { message: string }).message === 'jwt expired') {
       const refreshData = await refreshToken();
+
       if (!refreshData.success) {
         throw refreshData;
       }
+
       localStorage.setItem('refreshToken', refreshData.refreshToken);
       localStorage.setItem('accessToken', refreshData.accessToken);
+
+      const headers = (options.headers as Record<string, string>) || {};
+      headers.Authorization = refreshData.accessToken;
+      options.headers = headers;
+
       const res = await fetch(url, options);
       return await checkResponse<T>(res);
     }
@@ -45,51 +51,43 @@ export const fetchWithRefresh = async <T>(url: RequestInfo, options: RequestInit
   }
 };
 
-// --------------- LOGIN ---------------
+export const loginUser = createAsyncThunk<IUser, ILoginRequest>('auth/login', async (userData) => {
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(userData),
+  };
 
-export const loginUser = createAsyncThunk<IUserData, IUserData>(
-  'auth/login',
-  async (userData: IUserData): Promise<IUserData> => {
-    const requestOptions = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
-      },
-      response = await fetch(`${BASE_URL}/auth/login`, requestOptions),
-      data = await checkResponse<TUserLoginResponse>(response);
-    localStorage.setItem('accessToken', data.accessToken);
-    localStorage.setItem('refreshToken', data.refreshToken);
-    return data.user;
+  const response = await fetch(`${BASE_URL}/auth/login`, requestOptions);
+  const data = await checkResponse<IAuthResponse>(response);
+
+  localStorage.setItem('accessToken', data.accessToken);
+  localStorage.setItem('refreshToken', data.refreshToken);
+
+  return data.user;
+});
+
+export const getUserData = createAsyncThunk<IUser, void>('user/fetchUserData', async () => {
+  const token = localStorage.getItem('accessToken');
+  if (!token) {
+    throw new Error('Не найден токен доступа!');
   }
-);
 
-// --------------- GET USER DATA ---------------
+  const response = await fetchWithRefresh<IUserResponse>(`${BASE_URL}/auth/user`, {
+    headers: {
+      Authorization: token,
+    },
+  });
 
-export const getUserData = createAsyncThunk<IUserData, void>(
-  'user/fetchUserData',
-  async (): Promise<IUserData> => {
-    const token = localStorage.getItem('accessToken');
-    if (!token) {
-      throw new Error('Не найден токен доступа!');
-    }
-    const response: TUserLoginResponse = await fetchWithRefresh(`${BASE_URL}/auth/user`, {
-      headers: {
-        Authorization: token,
-      },
-    });
-    return response.user;
-  }
-);
-
-// --------------- GET INGREDIENTS ---------------
+  return response.user;
+});
 
 export const getIngredients = createAsyncThunk<IIngredient[], void>(
   'ingredientsListSlice/fetchIngredients',
-  async (): Promise<IIngredient[]> => {
-    const response = await fetch(`${BASE_URL}/ingredients`),
-      data = await checkResponse<TIngredientResponse>(response);
+  async () => {
+    const response = await fetch(`${BASE_URL}/ingredients`);
+    const data = await checkResponse<TIngredientResponse>(response);
+
     if (data?.success) {
       return data.data;
     }
@@ -97,16 +95,15 @@ export const getIngredients = createAsyncThunk<IIngredient[], void>(
   }
 );
 
-// --------------- UPDATE USER DATA ---------------
-
-export const updateUserData = createAsyncThunk<IUserData | null, IUserData>(
+export const updateUserData = createAsyncThunk<IUser, IUpdateUserRequest>(
   'user/updateUserData',
   async (updatedData) => {
     const token = localStorage.getItem('accessToken');
     if (!token) {
       throw new Error('Нет токена доступа!');
     }
-    const response = await fetchWithRefresh(`${BASE_URL}/auth/user`, {
+
+    const response = await fetchWithRefresh<IUserResponse>(`${BASE_URL}/auth/user`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -114,46 +111,35 @@ export const updateUserData = createAsyncThunk<IUserData | null, IUserData>(
       },
       body: JSON.stringify(updatedData),
     });
-    return checkResponse(response as Response);
+
+    return response.user;
   }
 );
 
-// --------------- REGISTER ---------------
-
-export const registerUser = createAsyncThunk<IRegisterUser, TUserRegister>(
+export const registerUser = createAsyncThunk<IUser, IRegisterRequest>(
   'auth/registerUser',
-  async (userData: IRegisterUser): Promise<TUserRegister> => {
+  async (userData) => {
     const response = await fetch(`${BASE_URL}/auth/register`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userData),
     });
-    if (response.ok) {
-      const responseData = await response.json();
-      localStorage.setItem('accessToken', responseData.accessToken);
-      localStorage.setItem('refreshToken', responseData.refreshToken);
-      return responseData;
-    }
-    const errorData = await response.json();
-    return Promise.reject(errorData);
+
+    const data = await checkResponse<IAuthResponse>(response);
+
+    localStorage.setItem('accessToken', data.accessToken);
+    localStorage.setItem('refreshToken', data.refreshToken);
+
+    return data.user;
   }
 );
 
-// --------------- RESET PASSWORD ---------------
-
 export const resetPassword = async (password: string, token: string) => {
-  const requestBody = {
-    password,
-    token,
-  };
+  const requestBody = { password, token };
   try {
     const response = await fetch(`${BASE_URL}/password-reset/reset`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(requestBody),
     });
     return await response.json();
@@ -163,20 +149,14 @@ export const resetPassword = async (password: string, token: string) => {
   }
 };
 
-// --------------- FORGOT PASSWORD ---------------
-
 export const forgotPassword = createAsyncThunk(
   'auth/forgotPassword',
   async (email: string | undefined): Promise<TApiResponse<string>> => {
-    const requestBody = {
-      email,
-    };
+    const requestBody = { email };
     try {
       const response = await fetch(`${BASE_URL}/password-reset`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(requestBody),
       });
 
@@ -188,74 +168,62 @@ export const forgotPassword = createAsyncThunk(
   }
 );
 
-// --------------- LOGOUT ---------------
+export const logoutUser = createAsyncThunk('auth/logoutUser', async () => {
+  const refreshToken = localStorage.getItem('refreshToken');
+  const response = await fetch(`${BASE_URL}/auth/logout`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+    body: JSON.stringify({ token: refreshToken }),
+  });
 
-export const logoutUser = createAsyncThunk(
-  'auth/logoutUser',
-  async (refreshToken: string | null) => {
-    const response = await fetch(`${BASE_URL}/auth/logout`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8',
-        },
-        body: JSON.stringify({
-          token: refreshToken,
-        }),
-      }),
-      logoutData = await checkResponse(response);
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    return logoutData;
-  }
-);
+  const logoutData = await checkResponse(response);
 
-// --------------- CREATE ORDER ---------------
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
+
+  return logoutData;
+});
 
 export const createOrder = createAsyncThunk<number, (string | undefined)[]>(
   'orderSlice/createOrder',
-  async (ingredientIds: (string | undefined)[]): Promise<number> => {
-    const token = localStorage.getItem('accessToken'),
-      filteredIngredientIds = ingredientIds.filter((id) => id !== undefined) as string[],
-      requestBody = {
-        ingredients: filteredIngredientIds,
-      },
-      headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-      };
+  async (ingredientIds) => {
+    const token = localStorage.getItem('accessToken');
+    const filteredIngredientIds = ingredientIds.filter((id) => id !== undefined) as string[];
+
+    const requestBody = {
+      ingredients: filteredIngredientIds,
+    };
+
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+
     if (token) {
       headers.Authorization = token;
     }
+
     const response = await fetch(`${BASE_URL}/orders`, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify(requestBody),
-      }),
-      data = await checkResponse<{ order: { number: number } }>(response);
+      method: 'POST',
+      headers,
+      body: JSON.stringify(requestBody),
+    });
+
+    const data = await checkResponse<{ order: { number: number } } & TApiResponse<{}>>(response);
     return data.order.number;
   }
 );
 
-// --------------- AUTH CHECK  ---------------
-
-export const checkUserAuth = () => async (dispatch: Dispatch) => {
-  const accessToken = localStorage.getItem('accessToken');
-  if (accessToken) {
+export const checkUserAuth = () => async (dispatch: Dispatch<any>) => {
+  if (localStorage.getItem('accessToken')) {
     try {
-      await fetch(`${BASE_URL}/auth/user`, {
-        headers: {
-          Authorization: accessToken,
-        },
-      }).then(checkResponse);
-      const userResponse = await fetch(`${BASE_URL}/auth/user`, {
-        headers: {
-          Authorization: accessToken,
-        },
+      const token = localStorage.getItem('accessToken');
+      const response = await fetchWithRefresh<IUserResponse>(`${BASE_URL}/auth/user`, {
+        headers: { Authorization: token || '' },
       });
-      if (userResponse.ok) {
-        const userData = await userResponse.json();
 
-        dispatch(setUser(userData));
-      }
+      dispatch(setUser(response.user));
     } catch (error) {
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('accessToken');
@@ -267,8 +235,6 @@ export const checkUserAuth = () => async (dispatch: Dispatch) => {
     dispatch(setAuthChecked(true));
   }
 };
-
-// --------------- GET CONCRETE ORDER ---------------
 
 export const getConcreteOrder = async (number: string): Promise<TOrders> => {
   try {

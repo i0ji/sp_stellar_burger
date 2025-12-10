@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createOrder } from 'utils/api.ts';
+import { createOrder } from 'utils/api';
 import { IOrderSlice } from 'declarations/interfaces';
 
 export const initialState: IOrderSlice = {

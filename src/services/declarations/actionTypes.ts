@@ -1,4 +1,4 @@
-import { getUserData, loginUser, logoutUser, registerUser, updateUserData } from 'utils/api.ts';
+import { getUserData, loginUser, logoutUser, registerUser, updateUserData } from 'utils/api';
 import {
   addIngredient,
   removeIngredient,
@@ -7,8 +7,8 @@ import {
 } from 'slices/constructorSlice.ts';
 import { updateSelectedIngredient } from 'slices/currentIngredientSlice.ts';
 import { updateIds, updateOrderNumber } from 'slices/orderSlice.ts';
-import { createOrder } from 'utils/api.ts';
-import { getIngredients } from 'utils/api.ts';
+import { createOrder } from 'utils/api';
+import { getIngredients } from 'utils/api';
 import {
   wsClose,
   wsConnect,

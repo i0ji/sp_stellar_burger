@@ -1,13 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { getUserData, loginUser, logoutUser, registerUser, updateUserData } from 'utils/api.ts';
+import { getUserData, loginUser, logoutUser, registerUser, updateUserData } from 'utils/api';
 
 import { IAuthSlice } from 'declarations/interfaces';
 
 export const initialState: IAuthSlice = {
   user: null,
   status: 'idle',
-  //   userData: null as null | IUserData,
   error: null as null | string,
   isAuth: false,
   authChecked: false,
@@ -33,7 +32,7 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.user = action.payload.user;
+        state.user = action.payload;
         state.error = null;
         state.isAuth = true;
         state.loginError = false;
@@ -48,7 +47,7 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.user = action.payload.user;
+        state.user = action.payload;
         state.error = null;
         state.isAuth = true;
       })
@@ -74,8 +73,7 @@ const authSlice = createSlice({
       })
       .addCase(getUserData.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        // state.userData = action.payload;
-        state.user = action.payload.user;
+        state.user = action.payload;
       })
       .addCase(getUserData.rejected, (state, action) => {
         state.status = 'failed';
@@ -87,7 +85,7 @@ const authSlice = createSlice({
       .addCase(updateUserData.fulfilled, (state, action) => {
         state.status = 'succeeded';
         // state.userData = action.payload;
-        state.user = action.payload?.user || null;
+        state.user = action.payload || null;
       })
       .addCase(updateUserData.rejected, (state, action) => {
         state.status = 'failed';
