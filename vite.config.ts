@@ -3,15 +3,9 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  
-  // ----------------------------------------------------
-  // НОВАЯ СЕКЦИЯ CSS
-  // ----------------------------------------------------
   css: {
     preprocessorOptions: {
       scss: {
-        // Эти файлы подключатся автоматически к КАЖДОМУ scss-файлу.
-        // Обратите внимание: мы используем ваш алиас "styles/"
         additionalData: `
           @use "styles/theme_colors" as *;
           @use "styles/size" as *;
@@ -31,7 +25,7 @@ export default defineConfig({
       components: '/src/components',
       common: '/src/components/common/',
       pages: '/src/pages',
-      styles: '/src/styles', // Этот алиас используется в additionalData выше
+      styles: '/src/styles',
       utils: '/src/services/utils/',
       images: '/src/images',
       slices: '/src/services/slices',
