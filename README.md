@@ -152,3 +152,4 @@ Global project features:
   08.09.25: **b**:chore **v**:0.1.9: deps update;<br>
   10.12.25: **b**:chore **v**:0.2.0: total interfaces & types refactor and fixing type issues in slices, reducers etc; rework logic and implementation, interfaces, types, slices, reducers; almost all components are modified<br>
   05.01.26: **b**:chore **v**:0.2.1: multiple deps update;<br> 
+  07.02.26: **b**:chore **v**:0.2.1: deps update;<br> 
