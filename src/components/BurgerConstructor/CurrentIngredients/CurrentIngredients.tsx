@@ -65,7 +65,9 @@ export default function CurrentIngredients({
       className={CurrentIngredientsStyles.constructor_order_item}
       data-handler-id={handlerId}
       ref={ref}
-      style={{ opacity }}
+      //CURRENT
+      style={{ opacity}}
+
     >
       <DragIcon type="primary" />
 
@@ -76,6 +78,7 @@ export default function CurrentIngredients({
         price={ingredient.price || 0}
         text={ingredient.name}
         thumbnail={ingredient.image || ''}
+        extraClass=' borderRadius: 300 '
       />
     </div>
   );
