@@ -119,6 +119,7 @@ Global project features:
 - Middleware set with tokenRefresh function and token access to personal orders;
 - Start react-framer;
 
+
   17.03.24: **b**:sprint5/step-1/**v**:0.1.9.5: order button leads to login when unAuth; add style bun highlights; make
   order condition and highlight problem logic;<br>
   18.03.24: **b**:sprint5/step-1/**v**:0.1.9.5.1: typing; RootState typing; interfaces optimising; LoginPage function take
@@ -148,8 +149,12 @@ Global project features:
   02.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.8: add order request; routing; add direct flag to OrderDetails; route markup; common order direct and nested route set; styling modal window for best behavior;<br>
   03.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.7.: reset to prev.version; profile page and orders layout refactor; routing for profile and feed pages; multiply style improvements and changes;<br>
   04.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.7.3: remove isDirect flag, replace it with IF condition when render OrderDetails; add \_id mapping key instead of i:number in ingredients; render of OrderDetails; add error reset on successful orderSlice update; modal shadow overlaps header; add description to Loader; updated and corrected calculation of order amount and quantity of ingredients; fixing last img brightness; some minor style and markup edits; add conditional render; move calculating qty and price logic to separate file; some markup edits for better reading; replace orderData condition; framer option start;<br>
+
+
+<h1>Maintenance </h1>
+
   08.09.25: **b**:chore **v**:0.1.9.6.7.3: deps, docs update;<br>
   08.09.25: **b**:chore **v**:0.1.9: deps update;<br>
   10.12.25: **b**:chore **v**:0.2.0: total interfaces & types refactor and fixing type issues in slices, reducers etc; rework logic and implementation, interfaces, types, slices, reducers; almost all components are modified<br>
-  05.01.26: **b**:chore **v**:0.2.1: multiple deps update;<br> 
-  07.02.26: **b**:chore **v**:0.2.1: deps update;<br> 
+  05.01.26: **b**:chore **v**:0.2.1: multiple deps update;<br>
+  07.02.26: **b**:chore **v**:0.2.1: deps update;<br>
