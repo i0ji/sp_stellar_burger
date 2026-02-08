@@ -1,5 +1,5 @@
-@use "styles/theme_colors";
-@use "styles/animation";
+@use 'styles/theme_colors';
+@use 'styles/animation';
 
 .constructor_block {
   composes: mt-25 pl-5 pb-10 from global;
@@ -44,7 +44,7 @@
 
       span:nth-child(2) {
         justify-content: center;
-        letter-spacing: .15em;
+        letter-spacing: 0.15em;
       }
 
       span:nth-child(3),
