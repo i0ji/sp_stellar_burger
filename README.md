@@ -133,42 +133,43 @@ Global project features:
 - Pages for personal and common orders;
 - Middleware set with tokenRefresh function and token access to personal orders;
 - Start react-framer;
-  <details>
-  <summary><b>Commit and update hisotory</b></summary>
-    17.03.24: **b**:sprint5/step-1/**v**:0.1.9.5: order button leads to login when unAuth; add style bun highlights; make
-    order condition and highlight problem logic;<br>
-    18.03.24: **b**:sprint5/step-1/**v**:0.1.9.5.1: typing; RootState typing; interfaces optimising; LoginPage function take
-    out from memoise; changed the file structure - corresponding files moved to services; IForm small edit; custom hook file
-    and typing;<br>
-    19.03.24: **b**:sprint5/step-1/**v**:0.1.9.5.3: typing; multiply type and interface changes; added navigation to '/'
-    after logout; chore; style edits;<br>
-    20.03.24: **b**:sprint5/step-1/**v**:0.1.9.5.3: style edits;
-    22.03.24: **b**:sprint5/step-1/**v**:0.1.9.5.5: style and type small edits; small constructor layout edits; added typed
-    useSelector and useDispatch;<br>
-    23.03.24: **b**:sprint5/step-1/**v**:0.1.9.5.5: style: add container markup mixin; multiply small edits; markup feed
-    page; markup feed page; attempt to separate auxiliary functions into a separate file; multiply markup attempts;
-    chore; <br>
-    24.03.24: **b**:sprint5/step-1/**v**:0.1.9.5.6: feed markup; multiply edits; replace <Modal> wrapper from App into
-    Ingredients detail component; styling thumbnails; multiply style edits; Thumbnail props type;<br>
-    25.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.1: cascade attempts; thumbnails set; history markup; new routing setting;
-    small style edits;<br>
-    26.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.3: yarn up; profile/feed set; markup profile orders page; take Profile to
-    separate folder; multiply style edits; added \_size for measurement vars; markup profile orders; some types
-    refactor;minor style and code improvements; placement of variables;<br>
-    27.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.4: attempt to avoid unnecessary rerender; added; writing and typing store, reducers and actions for WS; get rid of unnecessary feed store and put all logic in global store; get WS response - message; get array of orders; <br>
-    28.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.5: Feed markup update; get total and totalToday numbers; main feed display; some minor edits; typings; order price set; order routing in progress; get modal out of nested components to make right implementation;<br>
-    29.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.5: total refactor using middleware;<br>
-    30.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.6: add ban type disabling from ESlnit; add wsActions and second middleware; get ingredients via new middleware; types, actionsTypes, add second reducer/action pair; correct data set; profile order list w/o personal filter yet;<br>
-    31.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.6: delete store unused action types; routing attempts; move some common style settings to @mixin; personal orders check; routing;<br>
-    01.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.7: store typed issue; add react-framer to implement smooth render; routing;<br>
-    02.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.8: add order request; routing; add direct flag to OrderDetails; route markup; common order direct and nested route set; styling modal window for best behavior;<br>
-    03.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.7.: reset to prev.version; profile page and orders layout refactor; routing for profile and feed pages; multiply style improvements and changes;<br>
-    04.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.7.3: remove isDirect flag, replace it with IF condition when render OrderDetails; add \_id mapping key instead of i:number in ingredients; render of OrderDetails; add error reset on successful orderSlice update; modal shadow overlaps header; add description to Loader; updated and corrected calculation of order amount and quantity of ingredients; fixing last img brightness; some minor style and markup edits; add conditional render; move calculating qty and price logic to separate file; some markup edits for better reading; replace orderData condition; framer option start;<br>
-  </details>
-  <h1>Maintenance </h1>
+    <details>
+    <summary><b>Commit and update hisotory</b></summary>
+      17.03.24: **b**:sprint5/step-1/**v**:0.1.9.5: order button leads to login when unAuth; add style bun highlights; make
+      order condition and highlight problem logic;<br>
+      18.03.24: **b**:sprint5/step-1/**v**:0.1.9.5.1: typing; RootState typing; interfaces optimising; LoginPage function take
+      out from memoise; changed the file structure - corresponding files moved to services; IForm small edit; custom hook file
+      and typing;<br>
+      19.03.24: **b**:sprint5/step-1/**v**:0.1.9.5.3: typing; multiply type and interface changes; added navigation to '/'
+      after logout; chore; style edits;<br>
+      20.03.24: **b**:sprint5/step-1/**v**:0.1.9.5.3: style edits;
+      22.03.24: **b**:sprint5/step-1/**v**:0.1.9.5.5: style and type small edits; small constructor layout edits; added typed
+      useSelector and useDispatch;<br>
+      23.03.24: **b**:sprint5/step-1/**v**:0.1.9.5.5: style: add container markup mixin; multiply small edits; markup feed
+      page; markup feed page; attempt to separate auxiliary functions into a separate file; multiply markup attempts;
+      chore; <br>
+      24.03.24: **b**:sprint5/step-1/**v**:0.1.9.5.6: feed markup; multiply edits; replace <Modal> wrapper from App into
+      Ingredients detail component; styling thumbnails; multiply style edits; Thumbnail props type;<br>
+      25.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.1: cascade attempts; thumbnails set; history markup; new routing setting;
+      small style edits;<br>
+      26.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.3: yarn up; profile/feed set; markup profile orders page; take Profile to
+      separate folder; multiply style edits; added \_size for measurement vars; markup profile orders; some types
+      refactor;minor style and code improvements; placement of variables;<br>
+      27.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.4: attempt to avoid unnecessary rerender; added; writing and typing store, reducers and actions for WS; get rid of unnecessary feed store and put all logic in global store; get WS response - message; get array of orders; <br>
+      28.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.5: Feed markup update; get total and totalToday numbers; main feed display; some minor edits; typings; order price set; order routing in progress; get modal out of nested components to make right implementation;<br>
+      29.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.5: total refactor using middleware;<br>
+      30.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.6: add ban type disabling from ESlnit; add wsActions and second middleware; get ingredients via new middleware; types, actionsTypes, add second reducer/action pair; correct data set; profile order list w/o personal filter yet;<br>
+      31.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.6: delete store unused action types; routing attempts; move some common style settings to @mixin; personal orders check; routing;<br>
+      01.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.7: store typed issue; add react-framer to implement smooth render; routing;<br>
+      02.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.8: add order request; routing; add direct flag to OrderDetails; route markup; common order direct and nested route set; styling modal window for best behavior;<br>
+      03.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.7.: reset to prev.version; profile page and orders layout refactor; routing for profile and feed pages; multiply style improvements and changes;<br>
+      04.03.24: **b**:sprint5/step-1/**v**:0.1.9.6.7.3: remove isDirect flag, replace it with IF condition when render OrderDetails; add \_id mapping key instead of i:number in ingredients; render of OrderDetails; add error reset on successful orderSlice update; modal shadow overlaps header; add description to Loader; updated and corrected calculation of order amount and quantity of ingredients; fixing last img brightness; some minor style and markup edits; add conditional render; move calculating qty and price logic to separate file; some markup edits for better reading; replace orderData condition; framer option start;<br>
+    </details>
 
-  08.09.25: **b**:chore **v**:0.1.9.6.7.3: deps, docs update;<br>
-  08.09.25: **b**:chore **v**:0.1.9: deps update;<br>
-  10.12.25: **b**:chore **v**:0.2.0: total interfaces & types refactor and fixing type issues in slices, reducers etc; rework logic and implementation, interfaces, types, slices, reducers; almost all components are modified<br>
-  05.01.26: **b**:chore **v**:0.2.1: multiple deps update;<br>
-  07.02.26: **b**:chore **v**:0.2.1: deps update;<br>
+<h1>Maintenance </h1>
+
+08.09.25: **b**:chore **v**:0.1.9.6.7.3: deps, docs update;<br>
+08.09.25: **b**:chore **v**:0.1.9: deps update;<br>
+10.12.25: **b**:chore **v**:0.2.0: total interfaces & types refactor and fixing type issues in slices, reducers etc; rework logic and implementation, interfaces, types, slices, reducers; almost all components are modified<br>
+05.01.26: **b**:chore **v**:0.2.1: multiple deps update;<br>
+07.02.26: **b**:chore **v**:0.2.1: deps update;<br>
